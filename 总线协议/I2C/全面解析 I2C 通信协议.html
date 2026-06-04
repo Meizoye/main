@@ -1,0 +1,1572 @@
+
+<!-- saved from url=(0039)http://www.uml.org.cn/car/202407111.asp -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>全面解析 I2C 通信协议</title>
+<link href="./全面解析 I2C 通信协议_files/style.css" rel="stylesheet" type="text/css">
+<meta itemprop="image" content="http://modeler.org.cn/images/head2019.png">
+
+<style>
+.prism-tomorrow-night-eighties .prism .token.atrule, .prism-tomorrow-night-eighties .prism .token.keyword {
+    color: #c9c;
+}
+.prism-tomorrow-night-eighties .prism .token.attr-value, .prism-tomorrow-night-eighties .prism .token.builtin, .prism-tomorrow-night-eighties .prism .token.char, .prism-tomorrow-night-eighties .prism .token.inserted, .prism-tomorrow-night-eighties .prism .token.selector, .prism-tomorrow-night-eighties .prism .token.string {
+    color: #9c9;
+}
+.prism-tomorrow-night-eighties .prism .token.boolean, .prism-tomorrow-night-eighties .prism .token.constant, .prism-tomorrow-night-eighties .prism .token.deleted, .prism-tomorrow-night-eighties .prism .token.number, .prism-tomorrow-night-eighties .prism .token.property, .prism-tomorrow-night-eighties .prism .token.regex, .prism-tomorrow-night-eighties .prism .token.symbol {
+    color: #f99157;
+}
+.prism-tomorrow-night-eighties .prism .token.function {
+    color: #69c;
+}
+.prism-tomorrow-night-eighties .prism .token.attr-value, .prism-tomorrow-night-eighties .prism .token.builtin, .prism-tomorrow-night-eighties .prism .token.char, .prism-tomorrow-night-eighties .prism .token.inserted, .prism-tomorrow-night-eighties .prism .token.selector, .prism-tomorrow-night-eighties .prism .token.string {
+    color: #9c9;
+}
+
+
+@media  screen and (min-width: 320px)and (max-width: 500px){
+#ccc{width:98%  !important; }
+
+}
+@media  screen and (min-width: 360px) and (max-width: 1024px){
+.cnblogs_code {
+    
+    font-family: Courier New !important;
+    font-size: 12px !important;
+    overflow: auto;
+line-height:25px;
+width:350px;
+height:auto;
+}
+pre{
+overflow:auto;
+max-height:300px;
+}
+
+#right{
+display:none !important; 
+}
+img{
+width:auto;
+max-width: 90%;
+align:center;
+
+}
+.arttitle{
+width:100%;
+}
+#dai{
+width:100%;
+}
+
+}
+
+
+
+</style>
+<style type="text/css">
+<!--
+
+.abd {
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #BED6E0;
+	border-top-style: none;
+	border-left-style: none;
+	border-bottom-width: 1px;
+	border-bottom-style: none;
+	border-bottom-color: #BED6E0;
+}
+.acc {
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-right-color: #BED6E0;
+	border-bottom-color: #BED6E0;
+	border-left-color: #BED6E0;
+}
+.kuang {
+	border: 1px solid BED6E0;
+}
+.ltrig {
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #C0C0C0;
+	border-top-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-left-style: solid;
+	border-top-color: #C0C0C0;
+	border-left-color: #C0C0C0;
+}
+
+-->
+</style>
+<style type="text/css">
+<!--
+.left {
+	
+	
+}
+-->
+</style>
+<link href="./全面解析 I2C 通信协议_files/artstyle.css" rel="stylesheet" type="text/css">
+<link href="./全面解析 I2C 通信协议_files/style.css" rel="stylesheet" type="text/css"></head>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" bgcolor="#F5F5F5"><noscript>
+<iframe src="保密的网页名.htm"></iframe>
+</noscript>
+ 
+ 
+  
+<link href="./全面解析 I2C 通信协议_files/style.css" rel="stylesheet" type="text/css">
+<link href="./全面解析 I2C 通信协议_files/pxgk.css" rel="stylesheet" type="text/css">
+<link href="./全面解析 I2C 通信协议_files/vedio.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+
+<!--
+@media (max-width: 986px) {
+  .yc {
+    display: none !important; 
+  } 
+  
+  
+  
+  }
+}
+.artsect{color:#242424; font-family:"微软雅黑";font-size:14px; line-height: 18px}
+
+.hdtop_a
+{      color:#ffffff;
+        font-family:"微软雅黑";
+        font-size:15px; 
+		
+		line-height:30px;
+		height: 30px; 
+		text-decoration:none; 
+}
+.hdtop_a:link
+{	color: #ffffff;
+	font-family:"微软雅黑";
+	font-size:15px;
+	
+	
+	
+}
+.hdtop_a:visited
+{       color:#ffffff;
+        font-family:"微软雅黑";
+        font-size:15px;
+	
+} 
+.hdtop_a:hover
+{
+	color:#ffffff;
+	font-family:"微软雅黑";
+	font-size:15px;
+	
+} 
+-->
+</style>
+<script type="text/javascript">
+ 
+<!--
+ 
+    function txtFocus() {
+ 
+       var e = window.event;
+ 
+       var obj = e.srcElement;   //当前对象
+ 
+       obj.style.background = "#FFFFFF";
+ 
+    }
+ 
+    
+
+    function txtBlur() {
+ 
+       var e = window.event;
+ 
+       var obj = e.srcElement;
+ 
+       obj.style.background = "#404040";
+ 
+    }
+ 
+-->
+ 
+</script>
+
+
+
+<noscript><iframe src=*></iframe></noscript>
+<style>
+
+body {
+margin: 0px;padding:0
+
+}
+#div1 {
+display: none;
+position: absolute;
+z-index: 1000;
+height: 100%;
+width: 100%;
+background: #000000;
+filter:Alpha(opacity=30);
+opacity: .3;
+-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; 
+}
+
+#div3 {
+display: none;
+position: absolute;
+height: 100%;
+width: 100%;
+padding-top: 15%;
+z-index: 1000;
+left: 0px;
+top: 0px;
+}
+
+#contentday_a
+{     
+        font-family:"微软雅黑";
+        font-size:16px; 
+}
+
+#contentday1_a
+{     
+        font-family:"微软雅黑";
+        font-size:13px; 
+}
+.contnewnew_a
+{      color:#000000;
+        font-family:"微软雅黑";
+        font-size:16px; 
+		text-decoration: none;
+		
+}
+.contnewnew_a:link
+{	 color:#000000;
+        font-family:"微软雅黑";
+        font-size:16px; 
+		text-decoration: none;
+	
+}
+.contnewnew_a:visited
+{       color:#000000;
+        font-family:"微软雅黑";
+        font-size:16px; 
+		text-decoration: none;
+		
+} 
+.contnewnew_a:hover
+{
+	 color:#000000;
+        font-family:"微软雅黑";
+        font-size:16px; 
+		text-decoration: none;
+	
+} 
+#addiv1{
+position: absolute;
+height: 100%;
+width: 100%;
+padding-top:300px;
+z-index: 1000;
+left: 400;
+top: 0px;
+}
+
+#addiv2{
+position: absolute;
+height: 100%;
+width: 100%;
+padding-top: 305px;
+z-index: 1001;
+left: 927;
+top: 0px;
+}
+
+#addiv4{
+position:absolute;
+z-index:999;
+height:100%;
+width:100%;
+background:#000000;
+filter:Alpha(opacity=30);
+opacity:.3;
+-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; 
+}
+
+
+</style>
+
+
+
+<script>
+
+function openjz(){
+document.getElementById('div1').style.display='block';
+document.getElementById('div3').style.display='block';
+}
+function closejz(){
+document.getElementById('div1').style.display='none';
+document.getElementById('div3').style.display='none';
+}
+</script>
+<script language="javascript">
+function codefans(){
+var box=document.getElementById("addiv3");
+box.style.display="none"; 
+}
+
+setTimeout("codefans()",2000);//4秒
+
+
+function target_dis(){
+var target=document.getElementById("addiv3");
+target.style.display="none";
+}
+
+
+</script>
+
+<div id="div1"></div>
+<div id="div3"> 
+  <table width="30%" bgcolor="#FFFFFF" align="center" style="border:1px solid #01A3E8">
+    <tbody><tr>
+      <td> <div align="right"> 
+          <input name="button2" type="image" style="cursor: hand;" onclick="closejz()" value="ｘ" src="./全面解析 I2C 通信协议_files/jzx.png" width="23" height="23">
+        </div>
+        <table width="320px" border="0" cellpadding="3" cellspacing="1" align="center">
+          <tbody><tr> 
+            <td colspan="2" width="100%" bgcolor="#FFFFFF" height="150"> 
+              
+              <form name="form2" method="post" action="http://www.uml.org.cn/docjzh-art.asp?s=a">
+                <div align="left" style="padding-left:5%"><br>
+                  您可以捐助，支持我们的公益事业。<br>
+                  <br>
+                  <input name="jzed" type="radio" value="1" checked="">
+                  1元 
+                  <input type="radio" name="jzed" value="10">
+                  10元 
+                  <input type="radio" name="jzed" value="50">
+                  50元<br>
+                  <br>
+                  <input name="name" type="text" size="25" onblur="if(this.value==&#39;&#39;||this.value==&#39;姓名&#39;){this.value=&#39;姓名&#39;;this.style.color=&#39;#737e73&#39;;}else{this.style.color=&#39;#000000&#39;}" onfocus="if(this.value==&#39;姓名&#39;){this.value=&#39;&#39;;this.style.color=&#39;#000000&#39;;}" value="姓名" style="height: 35px; width: 250px; font-family: 微软雅黑; font-size: 16px; color: rgb(0, 0, 0);;background:#f5f5f5 !important;">
+                  <br>
+                  <br>
+                  <input name="mail" type="text" id="mail" style="height: 35px; width: 250px; font-family: 微软雅黑; font-size: 16px; color: rgb(0, 0, 0);;background:#f5f5f5; !important;box-shadow:none;" onblur="if(this.value==&#39;&#39;||this.value==&#39;邮箱&#39;){this.value=&#39;邮箱&#39;;this.style.color=&#39;#737e73&#39;;}else{this.style.color=&#39;#000000&#39;}" onfocus="if(this.value==&#39;邮箱&#39;){this.value=&#39;&#39;;this.style.color=&#39;#000000&#39;;}" value="邮箱">
+                  <br>
+                  <br>
+                  认证码：
+                  <input name="txt_check" type="text" size="10" maxlength="4" class="input" style="height:25px;">
+                  &nbsp;<img src="./全面解析 I2C 通信协议_files/checkcode.asp.下载" alt="验证码,看不清楚?请点击刷新验证码" width="57" height="18" style="cursor : pointer;" onclick="this.src=&#39;checkcode.asp?t=&#39;+(new Date().getTime());"> 
+                  必填 <br>
+                  <br>
+                  <input name="Submit2" style="border-style:none; background-color: #00A3E8; font-family: &#39;微软雅黑&#39;; width: 253px; height:38px; color: #FFFFFF; font-size: 20px;" value="确定" type="submit">
+                  <br>
+                  <br>
+                </div>
+              </form></td>
+          </tr>
+        </tbody></table></td>
+    </tr>
+  </tbody></table>
+</div>
+
+
+
+<div id="addiv3" style="display: none;">
+<div id="addiv4"></div>
+<div id="addiv1"> 
+	<table border="0" cellpadding="0" cellspacing="0">
+<tbody><tr><td><div><a href="http://www.uml.org.cn/inc/adpf.asp" class="pxgk_a" target="_blank"><img src="./全面解析 I2C 通信协议_files/qcdz.png" border="0"></a></div></td></tr>
+</tbody></table>
+</div>
+<div id="addiv2">
+	<table border="0" cellpadding="0" cellspacing="0">
+<tbody><tr><td><div><input type="image" value="ｘ" src="./全面解析 I2C 通信协议_files/adclose.png" style="cursor: hand;border-style:none;" onclick="target_dis()"></div></td></tr>
+</tbody></table>
+</div>
+</div>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="content" bgcolor="404040"><tbody><tr> 
+                  
+                  
+    <td width="1100"> <table width="100%" border="0" cellpadding="0" cellspacing="0" class="content" id="hdtopcon_a" height="40px">
+        <tbody><tr>
+         <td width="17" height="30">&nbsp;</td>
+          <td width="32" height="30" bgcolor="404040"><a href="http://www.uml.org.cn/index.asp" class="hdtop_a"><img src="./全面解析 I2C 通信协议_files/requindex.png" border="0"></a></td>
+
+          <td width="63" height="30" align="center" bgcolor="404040" style="border-left: 1px solid #000000;" onmouseover="this.bgColor=&#39;#606268&#39;;" onmouseout="this.bgColor=&#39;#404040&#39;"><a href="http://request.uml.com.cn/index.asp" class="hdtop_a">求知</a></td>
+          <td width="56" height="30" align="center" class="hdtoptd_a" onmouseover="this.bgColor=&#39;#606268&#39;;" onmouseout="this.bgColor=&#39;#404040&#39;" style="background:#f5f5f5;border-left: 1px solid #000000;"><a href="http://www.uml.org.cn/wenzhang/artindex.asp" class="hdtop_a"><font color="#000">文章</font></a></td>
+          <td width="56" height="30" align="center" bgcolor="404040" style="border-left: 1px solid #000000;" onmouseover="this.bgColor=&#39;#606268&#39;;" onmouseout="this.bgColor=&#39;#404040&#39;" class="yc"><span><a href="http://wenku.uml.com.cn/index.asp" class="hdtop_a">文库</a></span></td>
+          <td width="56" height="30" align="center" bgcolor="404040" style="border-left: 1px solid #000000;" onmouseover="this.bgColor=&#39;#606268&#39;;" onmouseout="this.bgColor=&#39;#404040&#39;"><a href="http://lib.uml.com.cn/index.asp" class="hdtop_a">Lib</a></td>
+          <td width="56" height="30" align="center" bgcolor="404040" style="border-left: 1px solid #000000;" onmouseover="this.bgColor=&#39;#606268&#39;;" onmouseout="this.bgColor=&#39;#404040&#39;" class="yc"><span><a href="http://video.uml.com.cn/index.asp" class="hdtop_a">视频</a></span></td>
+          <td width="85" height="30" align="center" bgcolor="404040" style="border-left: 1px solid #000000;" onmouseover="this.bgColor=&#39;#606268&#39;;" onmouseout="this.bgColor=&#39;#404040&#39;" class="yc"><a href="http://iperson.uml.com.cn/index.asp" class="hdtop_a">iPerson</a></td>
+          <td width="56" height="30" align="center" bgcolor="404040" style="border-left: 1px solid #000000;" onmouseover="this.bgColor=&#39;#606268&#39;;" onmouseout="this.bgColor=&#39;#404040&#39;"><a href="http://course.uml.org.cn/index.asp" class="hdtop_a">课程</a></td>
+          <td width="56" height="30" align="center" bgcolor="404040" style="border-left: 1px solid #000000;" onmouseover="this.bgColor=&#39;#606268&#39;;" onmouseout="this.bgColor=&#39;#404040&#39;" class="yc"><a href="http://certificate.uml.com.cn/index.asp" class="hdtop_a">认证</a></td>
+          <td width="56" height="30" align="center" bgcolor="404040" style="border-left: 1px solid #000000;" onmouseover="this.bgColor=&#39;#606268&#39;;" onmouseout="this.bgColor=&#39;#404040&#39;" class="yc"> <a href="http://consult.uml.com.cn/index.asp" class="hdtop_a">咨询</a></td>
+          <td width="56" height="30" align="center" bgcolor="404040" style="border-left: 1px solid #000000;" onmouseover="this.bgColor=&#39;#606268&#39;;" onmouseout="this.bgColor=&#39;#404040&#39;"><a href="http://tool.uml.com.cn/ToolsEA/tool_full_view.asp" class="hdtop_a">工具</a></td>
+          <td width="63" height="30" align="center" bgcolor="#404040" style="border-left: 1px solid #000000;" onmouseover="this.bgColor=&#39;#606268&#39;;" onmouseout="this.bgColor=&#39;#404040&#39;" class="yc"><a href="http://www.uml.com.cn/communicate/index.asp" class="hdtop_a">讲座</a></td>
+
+          <td width="120" height="30" align="center" bgcolor="404040" style="border-left: 1px solid #000000;" onmouseover="this.bgColor=&#39;#606268&#39;;" onmouseout="this.bgColor=&#39;#404040&#39;" class="yc"><a href="http://modeler.org.cn/index.asp" class="hdtop_a" target="_blank">Model Center</a></td>
+          <td width="120" height="30" align="center" bgcolor="404040" style="border-left: 1px solid #000000;" onmouseover="this.bgColor=&#39;#606268&#39;;" onmouseout="this.bgColor=&#39;#404040&#39;" class="yc"><a href="http://vehicle.modeler.org.cn/Article/index.asp" target="_blank" class="hdtop_a">汽车系统工程</a></td>
+		  <td width="100" height="30" align="center" bgcolor="404040" style="border-left: 1px solid #000000;" class="yc">&nbsp;</td>
+         <td align="center" width="80" height="30" bgcolor="05a7f2" style="border-left: 1px solid #000000;" onmouseover="this.bgColor=&#39;#606268&#39;;" onmouseout="this.bgColor=&#39;#05a7f2&#39;" class="yc"><a href="http://tool.uml.com.cn/model-library/index.asp" class="hdtop_a" target="_blank">模型库</a></td>
+          <td width="14" height="30" align="center" bgcolor="404040" style="border-left: 1px solid #000000;" class="yc">&nbsp;</td>
+        </tr>
+        <!--DWLayoutTable-->
+    </tbody></table></td>
+      <td>
+							   <table width="100%" border="0" cellpadding="0" cellspacing="0" class="content" bgcolor="#404040">
+							  <tbody><tr>
+							 <td height="40" align="right" class="yc">
+							 
+              <a href="http://user.uml.com.cn/login.asp?ty=org&amp;url=http://www.uml.org.cn/car/202407111.asp" class="hdtop_a"> 
+              <font color="#FFFFFF" width="100">会员&nbsp;&nbsp;&nbsp;</font></a> 
+              
+			
+			  
+			
+			  </td>
+							  </tr>
+							  </tbody></table> 
+							  </td>
+							  </tr>
+							  </tbody></table>
+							  
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="content">
+  <tbody><tr> 
+  
+   <td width="100%" height="110" valign="middle" class="yc"><table width="99%" border="0" cellpadding="0" cellspacing="0" class="content">
+        <tbody><tr> 
+          <td width="7">&nbsp;</td>
+          <td width="186" height="90" class="yc"><img align="right" src="./全面解析 I2C 通信协议_files/hlglogo.png"></td>
+		  <td width="7" height="90" valign="bottom">&nbsp;</td>
+          <td width="576" valign="middle"><font size="2"> 
+            <form action="http://www.uml.org.cn/wenzhang/artsearch.asp?curpage=1" method="post" style="display:inline;">
+              <table border="0" cellpadding="0" cellspacing="0" class="content">
+                <tbody><tr> 
+                  <td width="245" valign="middle" class="ss"> <input name="artname" type="text" id="id" style="height:25px;" value="" size="35"></td>
+                  <td width="100"> <input name="Submit" type="image" src="./全面解析 I2C 通信协议_files/seawzh.jpg" width="100" height="24"></td>
+                  <td width="33" valign="middle" class="yc"><div align="left"><a href="http://request.uml.com.cn/index.asp?dtype=%E6%96%87%E7%AB%A0"><img src="./全面解析 I2C 通信协议_files/reque.png" border="0"></a></div></td>
+                  <td width="124" valign="middle" class="yc"> <div align="left"><a href="http://request.uml.com.cn/index.asp?dtype=%E6%96%87%E7%AB%A0" class="contnewnew_a">要资料</a></div></td>
+                </tr>
+              </tbody></table>
+            </form>
+            </font></td>
+			
+			 <td width="1061"><table width="100%" align="right">
+               <tbody><tr>
+                 <td width="32%" align="center" id="borderwss">
+                   <table width="100%">
+                     <tbody><tr>
+                       <td width="13%" rowspan="2" valign="top"><img src="./全面解析 I2C 通信协议_files/course2.png"></td>
+                       <td width="87%" valign="middle" style="padding-left:5px"><a href="http://certificate.uml.com.cn/OCSMP.asp" target="_blank" style="font-size:15px;text-decoration:none;color:black;font-family:&#39;微软雅黑&#39;;">OCSMP 认证培训 </a></td>
+                     </tr>
+                     <tr>
+                       <td style="padding-left:5px" valign="top" align=""><a href="http://certificate.uml.com.cn/OCSMP.asp" target="_blank" style="font-size:15px;text-decoration:none;color:black;font-family:微软雅黑;">5月27-28日 线上直播</a></td>
+                     </tr>
+                 </tbody></table></td>
+                 <td width="33%" height="125px" align="center" id="borderwss">
+                   <table width="100%">
+                     <tbody><tr>
+                       <td rowspan="2" valign="top"><img src="./全面解析 I2C 通信协议_files/course1.png"></td>
+                       <td width="87%" valign="middle" style="padding-left:5px"><a href="http://course.uml.org.cn/course-safe/walsafe.asp" target="_blank" style="font-size:15px;text-decoration:none;color:black;font-family:&#39;微软雅黑&#39;;">企业网络安全防护体系</a></td>
+                     </tr>
+                     <tr>
+                       <td style="padding-left:5px" valign="top" align=""><a href="http://course.uml.org.cn/course-safe/walsafe.asp" target="_blank" style="font-size:15px;text-decoration:none;color:black;font-family:微软雅黑;">6月11-12日 北京+线上</a></td>
+                     </tr>
+                 </tbody></table></td>
+                 <td width="35%" align="center" id="borderwss">
+                   <table width="100%">
+                     <tbody><tr>
+                       <td width="14%" rowspan="2" valign="top"><img src="./全面解析 I2C 通信协议_files/course3.png"></td>
+                       <td width="87%" valign="middle" style="padding-left:5px"><a href="http://course.uml.org.cn/course-db/ModelBased-DataGovernance.asp" target="_blank" style="font-size:15px;text-decoration:none;color:black;font-family:&#39;微软雅黑&#39;;">基于模型的数据治理与数据中台 </a></td>
+                     </tr>
+                     <tr>
+                       <td style="padding-left:5px" valign="top" align=""><a href="http://course.uml.org.cn/course-db/ModelBased-DataGovernance.asp" target="_blank" style="font-size:15px;text-decoration:none;color:black;font-family:微软雅黑;">6月16-17日 北京+线上</a></td>
+                     </tr>
+                 </tbody></table></td>
+               </tr>
+             </tbody></table></td>
+	  <td width="32" height="20px" align="right" valign="top" style="padding-top:10px;"><a href="http://iperson.uml.com.cn/index.asp" target="_blank"><img src="./全面解析 I2C 通信协议_files/2020041522.png" border="none"> </a>
+               
+        </td></tr>
+      </tbody></table></td>
+   
+		
+		
+  </tr>
+</tbody></table>
+<table width="100%" height="1" border="0" cellpadding="0" cellspacing="0" bgcolor="#f5f5f5">	   
+							  <tbody><tr> 
+							  <td>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							  <tbody><tr><td bgcolor="#dcdcdc"><img src="./全面解析 I2C 通信协议_files/spacern.gif" width="1" height="1"></td></tr>
+							  </tbody></table>		  
+
+	</td>
+	</tr>
+</tbody></table>
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" class="content" align="center">
+  <tbody><tr valign="top"> 
+    <td width="900"> 
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" class="content">
+        <tbody><tr valign="top"> 
+          
+          <td width="864">
+		  <div id="xiangyingshi">
+		   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+              <tbody><tr> 
+                <td height="19" bgcolor="#FFFFFF"><table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" class="content">
+                    <tbody><tr> 
+                      <td height="17" valign="top">&nbsp;</td>
+                      <td valign="top">&nbsp;</td>
+                      <td valign="top">&nbsp;</td>
+                    </tr>
+                    <tr> 
+                        <td width="34%" height="47" valign="top"> 
+                          &nbsp;
+
+                        </td>
+                      <td valign="top"> 
+                        &nbsp;                       </td>
+                      <td width="34%" valign="top"> <div align="center"> 
+                          <style type="text/css">
+.jz_a:link {
+	color: #0000ff;
+	font-family:"微软雅黑";
+	font-size:18px;
+	text-decoration:none
+}
+
+.jz_a:visited {
+	color: #0000ff;
+	font-family:"微软雅黑";
+	font-size:18px;
+	text-decoration: none;
+	font-style: normal;
+	line-height: normal
+}
+
+.jz_a:hover {
+	color: #0000ff;
+	font-family:"微软雅黑";
+	font-size:18px;
+	text-decoration: none
+}
+share_a{
+float: left;
+font-size: 12px;
+text-decoration: none;
+line-height: 14px!important;
+}
+
+
+</style>
+<table width="150" align="right" cellspacing="0" cellpadding="0" border="0" style="padding-right:0px;">
+  <tbody><tr> 
+    
+	
+    
+      <td valign="middle" align="right"><font style="line-height: 18px; font-family:&#39;微软雅黑&#39;; font-size:18px;"><a href="http://tool.uml.com.cn/llq/llq2.asp" class="jz_a" target="_blank"><img src="./全面解析 I2C 通信协议_files/cloud.png" border="none" align="absmiddle">&nbsp;订阅</a></font></td>
+</tr></tbody></table>
+
+                        </div></td>
+                    </tr>
+                  </tbody></table></td>
+              </tr>
+             <tr> 
+                <td bgcolor="#FFFFFF"> <div align="center" class="arttitle">全面解析 I2C 通信协议</div></td>
+              </tr>
+              <tr> 
+                <td height="10" bgcolor="#FFFFFF">&nbsp;</td>
+              </tr>
+                   
+                 
+                   
+                <tr> 
+                    <td height="18" bgcolor="#FFFFFF" align="center"><font style="font-size:12px">作者：左成钢</font></td>
+              </tr>
+              <tr>
+                  <td height="72" bgcolor="#FFFFFF" class="content"> <table width="100%" height="30px" style="line-height:35px">
+                      <tbody><tr> 
+                        <td align="right" style="float:right"> 
+                         <style type="text/css">
+.wkpf,.wkpf1 {	
+    font-family: "微软雅黑";
+	font-size: 15px;
+	line-height: 30px;
+	text-decoration: none;
+	color: #818183;
+ }
+</style>
+
+
+
+<table width="100%" border="0" align="right" cellpadding="0" cellspacing="0" class="content">
+  <tbody><tr>
+  <td width="10px">&nbsp;</td>
+    <td height="30" valign="middle" class="wkpf1" align="right" style="padding-top:2px;"> 
+      <span class="wkpf">13474 &nbsp;</span>
+      <span class="wkpf" valign="middle">次浏览&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <span onclick="dianzan();"><img src="./全面解析 I2C 通信协议_files/dianzan.png" border="0"></span>&nbsp;<span id="dianzan" class="wkpf">67 次</span>
+    </td>
+</tr>
+</tbody></table>
+
+<script type="text/javascript">
+var XHR; 
+function createXHR(){ 
+    if(window.ActiveXObject){ 
+        XHR=new ActiveXObject('Microsoft.XMLHTTP');
+    }else if(window.XMLHttpRequest){ 
+        XHR=new XMLHttpRequest(); 
+    } 
+} 
+
+function dianzan(){ 
+    // 检查是否已点赞（使用Cookie）
+    var dianzanKey = "dianzan_223.85.229.62_26395";
+    var lastDianzan = getCookie(dianzanKey);
+    var currentTime = new Date();
+    
+    if(lastDianzan) {
+        var lastTime = new Date(lastDianzan);
+        var hoursDiff = (currentTime - lastTime) / (1000 * 60 * 60);
+        
+        if(hoursDiff < 24) {
+            alert('您今天已经点赞过此文章！');
+            return;
+        }
+    }
+    
+    // 设置点赞Cookie（24小时过期）
+    setCookie(dianzanKey, currentTime.toISOString(), 24);
+    
+    createXHR(); 
+    XHR.open("GET","http://www.uml.org.cn/inc/newdianzan22.asp?ID=26395",true);
+    XHR.onreadystatechange=tdianzan;
+    XHR.send(null); 
+} 
+
+function tdianzan(){ 
+    if(XHR.readyState == 4){ 
+        if(XHR.status == 200){ 
+            var textHTML=XHR.responseText; 
+            document.getElementById('dianzan').innerHTML=textHTML; 
+        } 
+    } 
+} 
+
+// Cookie操作函数
+function setCookie(name, value, hours) {
+    var expires = "";
+    if (hours) {
+        var date = new Date();
+        date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+</script>
+                        </td>
+                        <td bgcolor="#FFFFFF" align="right" class="artformtitle" style=" color:999999;float:right"> 
+                          &nbsp;2024-7-10</td>
+                      </tr>
+                    </tbody></table></td>
+              </tr>
+              <tr>
+              <td bgcolor="#FFFFFF">&nbsp;</td>
+              </tr>
+                <tr> 
+                  <td bgcolor="#FFFFFF">
+                    <table width="95%" border="0" align="center" cellpadding="3" cellspacing="1">
+                      <tbody><tr>
+                        <td bgcolor="#FFFFFF" class="content">
+                          <table width="60%" border="0" cellpadding="7" cellspacing="1" bgcolor="#b97a4e" style="text-indent: 0em;margin-left:5px" id="ccc">
+                            <tbody><tr>
+                              <td height="25" bgcolor="#faf7e4">
+                                <table width="100%">
+                                  <tbody><tr>
+                                    <td style="color:#845237" height="30px"><strong>编辑推荐:</strong></td>
+                                  </tr>
+                                  <tr>
+                                    <td style="color:#000000; font-size:14px;line-height:25px; font-family:&#39;微软雅黑&#39;;" height="78">本文
+
+
+ 介绍了什么是I2C通信协议，I2C的功能特点以及数据传输协议和代码实现。<br>
+                  本文来自于
+
+
+ 汽车ECU开发
+
+，由火龙果软件Alice编辑，推荐。</td>
+                                  </tr>
+                              </tbody></table></td>
+                            </tr>
+                          </tbody></table>
+                          <p class="artdir1">1、什么是I2C协议 </p>
+                          <p class="artcon">I2C 协议是一个允许多个 “从机” 芯片和一个或更多的 “主机” 芯片进行通讯的协议。它就像串行外设接口（SPI）一样，只能用于 短距离通信 。又像异步 串行接口 （如RS232或UART）， 只需要两根信号线来交换信息。 </p>
+                          <p class="artcon">实现I2C需要两根信号线完成信息交换， SCL 时钟信号线，SDA数据输入/输出线。它属于 同步通信 ，由于输入输出数据均使用一根线，因此通信方向为 半双工 。 </p>
+                          <p class="artcon">总结 ：短距离、一主多从、半双工、两根线、同步通讯 </p>
+                        <p align="center"><img src="./全面解析 I2C 通信协议_files/2024071111.jpg"></p>
+                          <p class="artdir1">2、名词解释 </p>
+                           <p class="artcon">什么是半双工？什么是同步通讯？什么是 异步通讯 ？</p><p class="artdir3">2.1 什么是半双工？ </p>
+                          <p class="artcon">数据通信中，数据在线路上的传送方式可以分为 单工通信 、 半双工通信 和 全双工通信 三种。 </p>
+                          <p class="artcon">单工通信： 是指消息只能单方向传输的工作方式。例如遥控、遥测(一部分)，就是单工通信方式。单工通信信道是单向信道，发送端和接收端的身份是固定的，发送端只能发送信息，不能接收信息；接收端只能接收信息，不能发送信息，数据信号仅从一端传送到另一端，即信息流是单方向的。 </p>
+                          <p class="artcon">半双工： 是指数据可以沿两个方向传送，但同一时刻一个信道只允许单方向传送，因此又被称为 双向交替通信 。（信息在两点之间能够在两个方向上进行发送，但不能同时发送的工作方式。）半双工方式要求收发两端都有发送装置和接收装置。由于这种方式要频繁变换信道方向，故效率低，但可以节约传输线路。 </p>
+                          <p class="artcon">全双工： 是指在通信的任意时刻，线路上可以同时存在A到B和B到A的双向信号传输。 在全双工方式下，通信系统的每一端都设置了发送器和接收器 ，因此，能控制数据同时在两个方向上传送。全双工方式无需进行方向的切换，因此，没有切换操作所产生的时间延迟，这对那些不能有时间延误的交互式应用（例如远程监测和控制系统）十分有利。比如，电话机则是一种全双工设备，其通话双方可以同时进行对话。 </p>
+                            <p align="center"><img src="./全面解析 I2C 通信协议_files/2024071121.jpg"></p>
+						  <p class="artdir3">2.2 什么是同步通讯 </p>
+                          <p class="artcon">同步通信： 发送端在发送串行数据的同时，提供一个时钟信号，并按照一定的约定（例如：在时钟信号的上升沿的时候，将数据发送出去）发送数据，接收端根据发送端提供的时钟信号，以及大家的约定，接收数据。如：I2C、SPI等有时钟信号的协议，都属于这种通信方式。 </p>
+                          <p class="artcon">异步通信： 接收方并不知道数据什么时候会到达，收发双方可以有各自自己的时钟。发送方发送的时间间隔可以不均，接收方是在数据的起始位和停止位的帮助下实现信息同步的。这种传输通常是很小的分组，比如：一个字符为一组，数据组配备起始位和结束位。所以这种传输方式的效率是比较低的，因为额外加入了很多的辅助位作为负载，常用在低速的传输中。 </p>
+                          <p class="artcon">同步通信与异步通信区别： </p>
+                          <p class="artcon">（1）同步通信要求接收端时钟频率和发送端时钟频率一致，发送端发送连续的比特流；异步通信时不要求接收端时钟和发送端时钟同步，发送端发送完一个字节后，可经过任意长的时间间隔再发送下一个字节。 </p>
+                          <p class="artcon">（2）同步通信效率高，异步通信效率较低。 </p>
+                          <p class="artcon">（3）同步通信较复杂，双方时钟的允许误差较小；异步通信简单，双方时钟可允许一定误差。 </p>
+                          <p class="artcon">（4）同步通信可用于点对多点；异步通信只适用于点对点。 </p>
+                          <p class="artdir1">3、I2C的功能特点 </p>
+                          <p class="artcon">I2C最重要的功能包括： </p>
+                          <ul>
+                            <li>
+                             只需要两条总线；
+                            </li>
+                            <li>
+                             没有严格的波特率要求，例如使用RS232，主设备生成总线时钟；
+                            </li>
+                            <li>
+                              所有组件之间都存在简单的主/从关系，连接到总线的每个设备均可通过唯一地址进行软件寻址
+                            </li>
+                            <li>I²C是真正的多主设备总线，可提供仲裁和冲突检测； </li>
+                          </ul>
+                          传输速度 ：
+                          <ul>
+                            <li>标准模式：Standard Mode = 100 Kbps </li>
+                            <li>快速模式：Fast Mode = 400 Kbps </li>
+                            <li>高速模式：High speed mode = 3.4 Mbps </li>
+                            <li>
+                             超快速模式：Ultra fast mode = 5 Mbps 
+                            </li>
+                          </ul>
+                           <p class="artcon">最大主设备数：无限制； </p>
+                          <p class="artcon">最大从机数：理论上是127； </p>
+                            <p align="center"><img src="./全面解析 I2C 通信协议_files/2024071131.jpg" width="700"></p>
+                          <p class="artdir1">4、I2C的高阻态 </p>
+                          <p class="artcon">漏极开路（Open Drain）即高阻状态，适用于输入/输出，其可独立输入/输出低电平和高阻状态，若需要产生高电平，则需使用外部上拉电阻 </p>
+                          <p class="artcon">高阻状态：高阻状态是三态门电路的一种状态。逻辑门的输出除有高、低电平两种状态外，还有第三种状态——高阻状态的门电路。电路分析时高阻态可做开路理解。 </p>
+                          <p class="artcon">我们知道IIC的所有设备是接在一根总线上的，那么我们进行通信的时候往往只是几个设备进行通信，那么这时候其余的空闲设备可能会受到总线干扰，或者干扰到总线，怎么办呢？ </p>
+                          <p class="artcon">为了避免总线信号的混乱，IIC 的空闲状态只能有外部上拉， 而此时空闲设备被拉到了高阻态，也就是相当于断路， 整个IIC总线只有开启了的设备才会正常进行通信，而不会干扰到其他设备。 </p>
+                          <p class="artdir1">5、数据传输协议 </p>
+                          <p class="artcon">主设备和从设备进行数据传输时遵循以下协议格式。数据通过一条SDA数据线在主设备和从设备之间传输0和1的串行数据。串行数据序列的结构可以分为： <br>
+                          </p>
+                           <p align="center"><img src="./全面解析 I2C 通信协议_files/2024071141.jpg" width="700"></p>
+						  <p class="artdir3">5.1 开始位 </p>
+                          <p class="artcon">当主设备决定开始通讯时，需要发送开始信号，并且执行以下过程： </p>
+                          <ul class="artcon">
+                            <li class="artcon">将SDA线由高电平切换成低电平； </li>
+                            <li class="artcon">
+                            
+                           将SCL 线由高电平切换成低电平； 
+                            </li>
+                          </ul>
+                        
+                          <p class="artcon">在 主设备发送 开始条件信号之后，所有从机即使处于睡眠模式也将变为活动状态，并等待接收地址位。 </p>
+					      <p align="center"><img src="./全面解析 I2C 通信协议_files/2024071151.jpg"></p>
+                          <p class="artdir3">5.2 地址位 </p>
+                          <p class="artcon">地址位支持 7bit、10bit，主设备如果需要向从机发送/接收数据，首先要发送对应从机的地址，然后会匹配总线上挂载的从机的地址，故地址为主要用来辨识不同设备。 </p>
+                          <p class="artcon">地址位由 主机发送 ，从设备负责接受并识别该地址是否位自己地址。 </p><p class="artdir3">5.3 读写位 </p>
+                          <p class="artcon">由于I2C是半双工通讯，所以设备需要确定数据传输的方向，故引入了读写位。 </p>
+                          <ul>
+                            <li>如果主设备需要将数据发送到从设备，则该位设置为 0； </li>
+                            <li>如果主设备需要往从设备接收数据，则将其设置为 1 ； </li>
+                          </ul>
+                          读写位由 主机发送 ；1表示读操作，0表示写操作。<p class="artdir3">5.4 应答位 </p>
+                          <p class="artcon">I2C最大的一个特点就是有完善的应答机制，从机接收到主机的数据时，会回复一个应答信号来通知主机表示“我收到了”。 </p>
+                          <p class="artcon">应答信号： 出现在1个字节传输完成之后，即第9个SCL时钟周期内，此时主机需要释放SDA总线，把总线控制权交给从机，由于上拉电阻的作用，此时总线为高电平，如果从机正确的收到了主机发来的数据，会把SDA拉低，表示应答响应。 </p>
+                           <p align="center"><img src="./全面解析 I2C 通信协议_files/2024071161.jpg"></p>
+                          <p class="artcon">非应答信号： 当第9个SCL时钟周期时，SDA保持高电平，表示非应答信号。 </p>
+                            <p align="center"><img src="./全面解析 I2C 通信协议_files/2024071171.jpg"></p>
+                     
+<p class="artcon">非应答信号可能是主机产生也可能是从机产生，产生非应答信号的情况主要有以下几种：</p>
+<ul>
+  <li>I2C总线上没有主机所指定地址的从机设备； </li>
+  <li>从机正在执行一些操作，处于忙状态，还没有准备好与主机通讯； </li>
+  <li>主机发送的一些控制命令，从机不支持； </li>
+  <li>主机接收从机数据时，主机产生非应答信号，通知从机数据传输结束，不要再发数据了； </li>
+</ul><p class="artdir3">5.5 数据位 </p>
+<p class="artcon">I2C数据总线传输要保证在SCL为高电平时，SDA数据稳定，所以SDA上数据变化只能在SCL为低电平时 </p>
+   <p align="center"><img src="./全面解析 I2C 通信协议_files/2024071181.jpg"></p>
+
+<p class="artcon">一次传输的数据总共有8位，由发送方设置，它需要将数据位传输到接收方。发送之后会紧跟一个ACK / NACK位，如果接收器成功接收到数据，则从机发送ACK。否则，从机发送NACK。 </p>
+<p class="artcon">数据可以重复发送多个，直到接收到停止位为止。 </p><p class="artdir3">5.6 停止位 </p>
+当主设备决定结束通讯时，需要发送结束信号，需要执行以下动作：
+<ul>
+  <li>先将SDA线从低电压电平切换到高电压电平； </li>
+  <li>再将SCL线从高电平拉到低电平； </li>
+  </ul>
+    <p align="center"><img src="./全面解析 I2C 通信协议_files/20240711181.jpg"></p>
+<p class="artdir3">5.7 总结 </p>
+<p class="artcon">写寄存器的标准流程为： </p>
+<ol>
+  <li>Master发起START </li>
+  <li>Master发送I2C addr（7bit）和w操作0（1bit），等待ACK </li>
+  <li>Slave发送ACK </li>
+  <li>Master发送reg addr（8bit），等待ACK </li>
+  <li>Slave发送ACK </li>
+  <li>Master发送data（8bit），即要写入寄存器中的数据，等待ACK </li>
+  <li>Slave发送ACK </li>
+  <li>第6步和第7步可以重复多次，即顺序写多个寄存器 </li>
+  <li>Master发起STOP </li>
+</ol>
+<p class="artcon">读寄存器的标准流程为： </p>
+<ol>
+  <li>Master发送I2C addr（7bit）和w操作0（1bit），等待ACK </li>
+  <li>Slave发送ACK </li>
+  <li>Master发送reg addr（8bit），等待ACK </li>
+  <li>Slave发送ACK </li>
+  <li>Master发起START </li>
+  <li>Master发送I2C addr（7bit）和r操作1（1bit），等待ACK </li>
+  <li>Slave发送ACK </li>
+  <li>Slave发送data（8bit），即寄存器里的值 </li>
+  <li>Master发送ACK </li>
+  <li>第8步和第9步可以重复多次，即顺序读多个寄存器 </li>
+</ol>
+<p class="artdir1">6、仲裁机制 </p>
+<p class="artcon">在多主的通信系统中。总线上有多个节点，它们都有自己的寻址地址，可以作为从节点被别的节点访问，同时它们都可以作为主节点向其他的节点发送控制字节和传送数据。 </p>
+<p class="artcon">但是如果有两个或两个以上的节点都向总线上发送启动信号并开始传送数据，这样就形成了冲突。要解决这种冲突，就要进行仲裁的判决，这就是I2C总线上的仲裁。 </p>
+<p class="artcon">I2C总线上的仲裁分两部分：SCL线的同步和SDA线的仲裁。 </p><p class="artdir3">6.1 SCL线的同步 </p>
+<p class="artcon">SCL同步是由于总线具有线 “与” 的逻辑功能（开漏输出），即只要有一个节点发送低电平时，总线上就表现为低电平。当所有的节点都发送高电平时，总线才能表现为高电平。 </p>
+<p class="artcon">正是由于线 “与” 逻辑功能的原理，当多个节点同时发送时钟信号时，在总线上表现的是统一的时钟信号，这就是SCL的同步原理。 </p>
+  <p align="center"><img src="./全面解析 I2C 通信协议_files/2024071191.jpg"></p>
+<p class="artdir3">6.2 SDA线的仲裁 </p>
+<p class="artcon">总线仲裁是为了解决多设备同时竞争中线控制权的问题，通过一定的裸机来决定哪个设备能够获得最终的总线控制权。 </p>
+<p class="artcon">SDA线的仲裁也是建立在总线具有线 “与” 逻辑功能的原理上的。节点在发送1位数据后，比较总线上所呈现的数据与自己发送的是否一致（类似于CAN总线的回读机制）。 </p>
+<ul>
+  <li>是，继续发送； </li>
+  <li>否则，退出竞争； </li>
+</ul>
+<p class="artcon">I2C总线的控制逻辑： 低电平优先 </p>
+<p class="artcon">SDA线的仲裁可以保证I2C总线系统在多个主节点同时企图控制总线时通信正常进行并且数据不丢失， 总线系统通过仲裁只允许一个主节点可以继续占据总线 。 </p>
+  <p align="center"><img src="./全面解析 I2C 通信协议_files/20240711101.jpg"></p>
+    <p align="center"><img src="./全面解析 I2C 通信协议_files/20240711111.jpg"></p>
+<p class="artcon">
+上图过程分析：</p>
+<p class="artcon">第一个周期：所有设备发送1，做与运算后的结果为1，与自己发送的数据相同，继续发送； </p>
+<p class="artcon">第二个周期：所有设备发送1，做与运算后的结果为1，与自己发送的数据相同，继续发送； </p>
+<p class="artcon">第三个周期：所有设备发送0，做与运算后的结果为0，与自己发送的数据相同，继续发送； </p>
+<p class="artcon">第四个周期：AB设备发送1，C设备发送0，做与运算后结果为0，与AB发送的数据不同，则AB退出竞争，节点C获胜； <br>
+    <br>
+  注：若AB两个设备发送0，C设备发送1，这最后与运算结果为0，与AB数据格式相同，与C数据格式不同，则C退出，AB继续发送，直至AB中有一个退出。 </p>
+SDA 仲裁 和 SCL 时钟同步处理过程没有先后关系，而是同时进行的。 <br>
+<p class="artdir1">7、I2C死锁 </p>
+<p class="artcon">在实际使用过程中，I2C比较容易出现的一个问题就是死锁 ，死锁在I2C中主要表现为： I2C死锁时表现为SCL为高，SDA一直为低。 </p>
+<p class="artcon">在I2C主设备进行读写操作的过程中，主设备在开始信号后控制SCL产生8个时钟脉冲，然后拉低SCL信号为低电平，在这个时候，从设备输出应答信号，将SDA信号拉为低电平。 </p>
+<p class="artcon">如果这个时候主设备异常复位，SCL就会被释放为高电平。此时，如果从设备没有复位，就会继续I2C的应答，将SDA一直拉为低电平，直到SCL变为低电平，才会结束应答信号。 </p>
+<p class="artcon">而对于I2C主设备来说，复位后检测SCL和SDA信号，如果发现SDA信号为低电平，则会认为I2C总线被占用，会一直等待SCL和SDA信号变为高电平。 </p>
+<p class="artcon">这样，I2C主设备等待从设备释放SDA信号，而同时I2C从设备又在等待主设备将SCL信号拉低以释放应答信号，两者相互等待，I2C总线进人一种死锁状态。 </p>
+<p class="artcon">同样，当I2C进行读操作，I2C从设备应答后输出数据，如果在这个时刻I2C主设备异常复位而此时I2C从设备输出的数据位正好为0，也会导致I2C总线进入死锁状态。 </p>
+<p class="artdir1">8、I2C的代码实现 </p>
+<p class="artcon">参考了STM32的 HAL 库中I2C驱动，主设备发送函数 HAL_I2C_Master_Transmit() 具体如下： </p>
+<table width="70%" border="0" align="center" id="ccc" cellpadding="7" cellspacing="1" bgcolor="#CCCCCC" class="content" style="text-indent: 0em;">
+  <tbody><tr>
+    <td width="100%" height="25" bgcolor="#f5f5f5"><div class="cnblogs_code">
+      <pre style="margin-top: 10px;margin-bottom: 10px;padding: 9.5px;outline: 0px;font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace;letter-spacing: 0px;overflow: auto;font-size: 13px;line-height: 1.42857;word-break: break-all;"><code style="padding: 15px 16px 16px;outline: 0px;font-family: &quot;Operator Mono&quot;, Consolas, Monaco, Menlo, monospace;font-size: 12px;border-radius: 5px;text-wrap: wrap;overflow-x: auto;display: -webkit-box;"><span style="outline: 0px;font-style: italic;line-height: 26px;">/**<br style="outline: 0px;">&nbsp;&nbsp;*&nbsp;@brief&nbsp;&nbsp;Transmits&nbsp;in&nbsp;master&nbsp;mode&nbsp;an&nbsp;amount&nbsp;of&nbsp;data&nbsp;in&nbsp;blocking&nbsp;mode.<br style="outline: 0px;">&nbsp;&nbsp;*&nbsp;@param&nbsp;&nbsp;hi2c&nbsp;Pointer&nbsp;to&nbsp;a&nbsp;I2C_HandleTypeDef&nbsp;structure&nbsp;that&nbsp;contains<br style="outline: 0px;">&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;configuration&nbsp;information&nbsp;for&nbsp;the&nbsp;specified&nbsp;I2C.<br style="outline: 0px;">&nbsp;&nbsp;*&nbsp;@param&nbsp;&nbsp;DevAddress&nbsp;Target&nbsp;device&nbsp;address:&nbsp;The&nbsp;device&nbsp;7&nbsp;bits&nbsp;address&nbsp;value<br style="outline: 0px;">&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;datasheet&nbsp;must&nbsp;be&nbsp;shifted&nbsp;to&nbsp;the&nbsp;left&nbsp;before&nbsp;calling&nbsp;the&nbsp;interface<br style="outline: 0px;">&nbsp;&nbsp;*&nbsp;@param&nbsp;&nbsp;pData&nbsp;Pointer&nbsp;to&nbsp;data&nbsp;buffer<br style="outline: 0px;">&nbsp;&nbsp;*&nbsp;@param&nbsp;&nbsp;Size&nbsp;Amount&nbsp;of&nbsp;data&nbsp;to&nbsp;be&nbsp;sent<br style="outline: 0px;">&nbsp;&nbsp;*&nbsp;@param&nbsp;&nbsp;Timeout&nbsp;Timeout&nbsp;duration<br style="outline: 0px;">&nbsp;&nbsp;*&nbsp;@retval&nbsp;HAL&nbsp;status<br style="outline: 0px;">&nbsp;&nbsp;*/</span><br style="outline: 0px;"><span style="outline: 0px;line-height: 26px;">HAL_StatusTypeDef&nbsp;HAL_I2C_Master_Transmit(I2C_HandleTypeDef&nbsp;*hi2c,&nbsp;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint16_t&nbsp;DevAddress,&nbsp;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint8_t&nbsp;*pData,&nbsp;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint16_t&nbsp;Size,&nbsp;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint32_t&nbsp;Timeout)</span>{<br style="outline: 0px;">&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">uint32_t</span>&nbsp;tickstart&nbsp;=&nbsp;<span style="outline: 0px;color: rgb(209, 154, 102);line-height: 26px;">0x00</span>U;<br style="outline: 0px;"><br style="outline: 0px;">&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Init&nbsp;tickstart&nbsp;for&nbsp;timeout&nbsp;management*/</span><br style="outline: 0px;">&nbsp;&nbsp;tickstart&nbsp;=&nbsp;HAL_GetTick();<br style="outline: 0px;"><br style="outline: 0px;">&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">if</span>(hi2c-&gt;State&nbsp;==&nbsp;HAL_I2C_STATE_READY){<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Wait&nbsp;until&nbsp;BUSY&nbsp;flag&nbsp;is&nbsp;reset&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">if</span>(I2C_WaitOnFlagUntilTimeout(hi2c,&nbsp;I2C_FLAG_BUSY,&nbsp;SET,&nbsp;I2C_TIMEOUT_BUSY_FLAG,&nbsp;tickstart)&nbsp;!=&nbsp;HAL_OK){<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">return</span>&nbsp;HAL_BUSY;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;}<br style="outline: 0px;"><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Process&nbsp;Locked&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;__HAL_LOCK(hi2c);<br style="outline: 0px;"><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Check&nbsp;if&nbsp;the&nbsp;I2C&nbsp;is&nbsp;already&nbsp;enabled&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">if</span>((hi2c-&gt;Instance-&gt;CR1&nbsp;&amp;&nbsp;I2C_CR1_PE)&nbsp;!=&nbsp;I2C_CR1_PE){<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Enable&nbsp;I2C&nbsp;peripheral&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;__HAL_I2C_ENABLE(hi2c);<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;}<br style="outline: 0px;"><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Disable&nbsp;Pos&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;Instance-&gt;CR1&nbsp;&amp;=&nbsp;~I2C_CR1_POS;<br style="outline: 0px;"><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;State&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;HAL_I2C_STATE_BUSY_TX;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;Mode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;HAL_I2C_MODE_MASTER;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;ErrorCode&nbsp;=&nbsp;HAL_I2C_ERROR_NONE;<br style="outline: 0px;"><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Prepare&nbsp;transfer&nbsp;parameters&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;pBuffPtr&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;pData;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;XferCount&nbsp;&nbsp;&nbsp;=&nbsp;Size;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;XferOptions&nbsp;=&nbsp;I2C_NO_OPTION_FRAME;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;XferSize&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;hi2c-&gt;XferCount;<br style="outline: 0px;"><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Send&nbsp;Slave&nbsp;Address&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">if</span>(I2C_MasterRequestWrite(hi2c,&nbsp;DevAddress,&nbsp;Timeout,&nbsp;tickstart)&nbsp;!=&nbsp;HAL_OK){<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">if</span>(hi2c-&gt;ErrorCode&nbsp;==&nbsp;HAL_I2C_ERROR_AF){<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Process&nbsp;Unlocked&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;__HAL_UNLOCK(hi2c);<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">return</span>&nbsp;HAL_ERROR;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">else</span>{<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Process&nbsp;Unlocked&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;__HAL_UNLOCK(hi2c);<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">return</span>&nbsp;HAL_TIMEOUT;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;}<br style="outline: 0px;"><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Clear&nbsp;ADDR&nbsp;flag&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;__HAL_I2C_CLEAR_ADDRFLAG(hi2c);<br style="outline: 0px;"><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">while</span>(hi2c-&gt;XferSize&nbsp;&gt;&nbsp;<span style="outline: 0px;color: rgb(209, 154, 102);line-height: 26px;">0U</span>){<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Wait&nbsp;until&nbsp;TXE&nbsp;flag&nbsp;is&nbsp;set&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">if</span>(I2C_WaitOnTXEFlagUntilTimeout(hi2c,&nbsp;Timeout,&nbsp;tickstart)&nbsp;!=&nbsp;HAL_OK){<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">if</span>(hi2c-&gt;ErrorCode&nbsp;==&nbsp;HAL_I2C_ERROR_AF){<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Generate&nbsp;Stop&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;Instance-&gt;CR1&nbsp;|=&nbsp;I2C_CR1_STOP;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">return</span>&nbsp;HAL_ERROR;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">else</span>{<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">return</span>&nbsp;HAL_TIMEOUT;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Write&nbsp;data&nbsp;to&nbsp;DR&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;Instance-&gt;DR&nbsp;=&nbsp;(*hi2c-&gt;pBuffPtr++);<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;XferCount--;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;XferSize--;<br style="outline: 0px;"><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">if</span>((__HAL_I2C_GET_FLAG(hi2c,&nbsp;I2C_FLAG_BTF)&nbsp;==&nbsp;SET)&nbsp;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;&nbsp;(hi2c-&gt;XferSize&nbsp;!=&nbsp;<span style="outline: 0px;color: rgb(209, 154, 102);line-height: 26px;">0U</span>)){<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Write&nbsp;data&nbsp;to&nbsp;DR&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;Instance-&gt;DR&nbsp;=&nbsp;(*hi2c-&gt;pBuffPtr++);<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;XferCount--;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;XferSize--;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Wait&nbsp;until&nbsp;BTF&nbsp;flag&nbsp;is&nbsp;set&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">if</span>(I2C_WaitOnBTFFlagUntilTimeout(hi2c,&nbsp;Timeout,&nbsp;tickstart)&nbsp;!=&nbsp;HAL_OK){<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">if</span>(hi2c-&gt;ErrorCode&nbsp;==&nbsp;HAL_I2C_ERROR_AF){<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Generate&nbsp;Stop&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;Instance-&gt;CR1&nbsp;|=&nbsp;I2C_CR1_STOP;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">return</span>&nbsp;HAL_ERROR;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">else</span>{<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">return</span>&nbsp;HAL_TIMEOUT;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;}<br style="outline: 0px;"><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Generate&nbsp;Stop&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;Instance-&gt;CR1&nbsp;|=&nbsp;I2C_CR1_STOP;<br style="outline: 0px;"><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;State&nbsp;=&nbsp;HAL_I2C_STATE_READY;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;hi2c-&gt;Mode&nbsp;=&nbsp;HAL_I2C_MODE_NONE;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;font-style: italic;line-height: 26px;">/*&nbsp;Process&nbsp;Unlocked&nbsp;*/</span><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;__HAL_UNLOCK(hi2c);<br style="outline: 0px;"><br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">return</span>&nbsp;HAL_OK;<br style="outline: 0px;">&nbsp;&nbsp;}<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">else</span>{<br style="outline: 0px;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="outline: 0px;color: rgb(198, 120, 221);line-height: 26px;">return</span>&nbsp;HAL_BUSY;<br style="outline: 0px;">&nbsp;&nbsp;}<br style="outline: 0px;">}</code></pre>
+    </div></td>
+  </tr>
+</tbody></table><p class="artcon">&nbsp; </p>
+                          <p class="artcon">&nbsp; </p>
+                          <p class="artcon"></p></td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#FFFFFF" class="content">&nbsp;</td>
+                      </tr>
+                    </tbody></table>
+                    <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" class="content">
+                   <tbody><tr> 
+                      <td width="34%" height="17" valign="top"> 
+                        &nbsp;                      </td>
+                      <td valign="top"> 
+                        	&nbsp;                       </td>
+                      <td width="34%" valign="top"> <div align="center"> 
+                          
+<style type="text/css">
+.wkpf,.wkpf1 {	
+    font-family: "微软雅黑";
+	font-size: 15px;
+	line-height: 30px;
+	text-decoration: none;
+	color: #818183;
+ }
+</style>
+
+<style type="text/css">
+.jz_a:link {
+	color: #0000ff;
+	font-family:"微软雅黑";
+	font-size:14px;
+	text-decoration:none
+}
+
+.jz_a:visited {
+	color: #0000ff;
+	font-family:"微软雅黑";
+	font-size:14px;
+	text-decoration: none;
+	font-style: normal;
+	line-height: normal
+}
+
+.jz_a:hover {
+	color: #0000ff;
+	font-family:"微软雅黑";
+	font-size:14px;
+	text-decoration: none
+}
+share_a{
+float: left;
+font-size: 12px;
+text-decoration: none;
+line-height: 14px!important;
+}
+</style>
+
+<script type="text/javascript">
+// Cookie操作函数
+function setCookie(name, value, hours) {
+    var expires = "";
+    if (hours) {
+        var date = new Date();
+        date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+// 检查是否可以点赞
+function canPraise() {
+    var dianzanKey = "praise_26395";
+    var lastPraise = getCookie(dianzanKey);
+    
+    if(lastPraise) {
+        var lastTime = new Date(lastPraise);
+        var currentTime = new Date();
+        var hoursDiff = (currentTime - lastTime) / (1000 * 60 * 60);
+        
+        if(hoursDiff < 24) {
+            alert('您今天已经点赞过此文章！');
+            return false;
+        }
+    }
+    return true;
+}
+
+var XHR; 
+function createXHR(){ 
+    if(window.ActiveXObject){ 
+        XHR=new ActiveXObject('Microsoft.XMLHTTP');
+    }else if(window.XMLHttpRequest){ 
+        XHR=new XMLHttpRequest(); 
+    } 
+} 
+
+function dianzan2(){ 
+    // 检查是否可以在24小时内点赞
+    if (!canPraise()) {
+        return;
+    }
+    
+    // 设置点赞Cookie（24小时过期）
+    var currentTime = new Date();
+    setCookie("praise_26395", currentTime.toISOString(), 24);
+    
+    createXHR(); 
+    XHR.open("GET","http://www.uml.org.cn/inc/newdianzan2.asp?ID=26395",true);
+    XHR.onreadystatechange=tdianzan; 
+    XHR.send(null); 
+} 
+
+function tdianzan(){ 
+    if(XHR.readyState == 4){ 
+        if(XHR.status == 200){ 
+            var textHTML=XHR.responseText; 
+            // 同时更新两个点赞显示区域
+            document.getElementById('dianzan').innerHTML = textHTML; 
+            document.getElementById('dianzan2').innerHTML = textHTML;
+        } 
+    } 
+} 
+</script>
+
+<table width="300px" border="0" align="right" cellpadding="5" cellspacing="0" class="content">
+    <tbody><tr> 
+        <td height="30" valign="middle" class="wkpf1" nowrap="nowrap" align="right"> 
+            <span id="txtHintq">
+            <span class="wkpf">13474 &nbsp;</span>
+            </span> 
+            <span class="wkpf" valign="middle">次浏览 &nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span onclick="dianzan2();"><img src="./全面解析 I2C 通信协议_files/dianzan.png" border="0"></span>&nbsp;<span id="dianzan2" class="wkpf">67 次</span>
+        </td>
+    </tr>
+</tbody></table>
+                        </div></td>
+                    </tr>
+                  </tbody></table> 
+                   
+<style type="text/css">
+.lettit
+{      color:#000000;
+        font-family:"微软雅黑";
+        font-size:13px; 
+		
+}
+@media (max-width: 768px) {
+  .wd{
+    display: none !important; 
+  } 
+  
+  
+  
+  }
+}
+</style>
+<table width="95%" border="0" align="center" cellpadding="1" cellspacing="1">
+  <tbody><tr> 
+    <td width="34%" height="127" valign="top"> <table width="100%">
+        <tbody><tr><td width="34%" height="30" valign="top"></td>
+        </tr><tr> 
+          <td width="386" height="25">相关文章</td>
+        </tr>
+        <tr> 
+          <td width="386" height="25"><hr width="80%" size="1" color="#999999" align="left"></td>
+        </tr>
+        <tr> 
+          <td width="386" height="25"><a href="http://www.uml.org.cn/car/2023083041.asp?artid=25917" target="_blank" class="artrighttext_a">中央计算的软件定义汽车架构设计</a></td>
+        </tr>
+        <tr> 
+          <td height="25"><a href="http://www.uml.org.cn/car/202308184.asp?artid=25900" target="_blank" class="artrighttext_a">汽车电子控制系统中的软件开发过程</a></td>
+        </tr>
+        <tr> 
+          <td height="25"><a href="http://www.uml.org.cn/car/202307051.asp?artid=25833" target="_blank" class="artrighttext_a">一文读懂汽车芯片-有线通信芯片</a></td>
+        </tr>
+        <tr> 
+          <td height="25"><a href="http://www.uml.org.cn/car/202307211.asp?artid=25856" target="_blank" class="artrighttext_a">OTA在汽车上有哪些难点痛点？</a></td>
+        
+</tr>
+<tr>   <td width="34%" height="25" valign="top"></td></tr>
+      </tbody></table></td>
+    <td width="34%" height="127" valign="top" class="wd"> <table width="100%">
+        <tbody><tr><td width="34%" height="30" valign="top"></td>
+        </tr><tr> 
+          <td width="386" height="25">相关文档</td>
+        </tr>
+        <tr> 
+          <td width="386" height="25"><hr width="80%" size="1" color="#999999" align="left"></td>
+        </tr>
+        <tr> 
+          <td width="386" height="25"><a href="http://wenku.uml.com.cn/document.asp?fileid=20229&amp;partname=%C9%E8%BC%C6" class="artrighttext_a">汽车设计-汽车的整体结构及动力系统 </a></td>
+        </tr>
+        <tr> 
+          <td height="23"> <a href="http://wenku.uml.com.cn/document.asp?fileid=20086&amp;partname=%C8%CB%B9%A4%D6%C7%C4%DC" class="artrighttext_a"> 
+            自动驾驶汽车软件计算框架 </a></td>
+        </tr>
+        <tr> 
+          <td height="25"><a href="http://wenku.uml.com.cn/document.asp?fileid=19863&amp;partname=%BD%A8%C4%A3" class="artrighttext_a"> 
+         SysML在汽车领域的应用实践</a></td>
+        </tr>
+        <tr> 
+          <td height="25"><a href="http://wenku.uml.com.cn/document.asp?fileid=20041&amp;partname=%C7%B6%C8%EB%CA%BD%BF%AA%B7%A2" class="artrighttext_a"> 电子电气架构-大陆汽车系统架构平台</a></td>
+        </tr>
+<tr>   <td width="34%" height="25" valign="top"></td></tr>
+      </tbody></table></td>
+    <td width="34%" height="127" valign="top" class="wd"> <table width="100%">
+        <tbody><tr><td width="34%" height="30" valign="top"></td>
+        </tr><tr> 
+          <td height="25">相关课程</td>
+        </tr>
+        <tr> 
+          <td height="25"><hr width="80%" size="1" color="#999999" align="left"></td>
+        </tr>
+        <tr> 
+          <td height="25"><a href="http://course.uml.org.cn/course-emb/AutoSAR.asp" class="artrighttext_a">AutoSAR原理与实践 </a></td>
+        </tr>
+        <tr> 
+          <td width="386" height="25"><a href="http://course.uml.org.cn/course-safe/ISO26262.asp" class="artrighttext_a">功能安全管理体系（基于ISO26262）  </a></td>
+        </tr>
+        <tr> 
+          <td height="25"><a href="http://course.uml.org.cn/course-uml/MBSE.asp" class="artrighttext_a">MBSE（基于模型的系统工程）</a></td>
+        </tr>
+        <tr> 
+          <td height="25"><a href="http://course.uml.org.cn/course-emb/SOA_aerd.asp" target="_blank" class="artrighttext_a">基于SOA的汽车电子架构设计与开发</a></td>
+        </tr>
+<tr>   <td width="34%" height="25" valign="top"></td></tr>
+      </tbody></table></td>
+  </tr>
+</tbody></table>
+                  </td>
+              </tr>
+            </tbody></table>
+			</div>
+		  </td>
+        </tr>
+      </tbody></table></td>
+	  
+	  
+    <td class="yc">
+        <table width="278" border="0" align="right" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" class="content">
+          <tbody><tr> 
+            <td height="20" valign="top" class="left_right">
+					<table width="300" height="8" border="0" align="center" cellpadding="1" cellspacing="1" bgcolor="#FFFFFF" class="content" id="__01">
+                <!--DWLayoutTable-->
+                		<tbody><tr> 
+                  			<td height="17" valign="top"> 
+								<table width="290" height="7" border="0" align="center" cellpadding="1" cellspacing="1" bgcolor="#FFFFFF" class="content" id="__01">
+                    				<tbody><tr>
+                      					<td height="17" valign="top"> 
+                        				  
+<style>
+
+.contnew
+{     color: #0000FF;
+        font-family:"微软雅黑";
+        font-size:15px; 
+		
+}
+.contnew_a:link
+{	color: #0000FF;
+	font-family:"微软雅黑";
+	font-size:15px;
+	
+}
+.contnew_a:visited
+{       color: #0000FF;
+        font-family:"微软雅黑";
+        font-size:15px;
+		
+} 
+.contnew_a:hover
+{
+	color: #0000FF;
+	font-family:"微软雅黑";
+	font-size:15px;
+	color: #0000FF;
+	
+} 
+.contnew1
+{     color: #0000FF;
+        font-family:"微软雅黑";
+        font-size:15px; 
+		
+}
+.contnew1_a:link
+{	color: #0000FF;
+	font-family:"微软雅黑";
+	font-size:15px;
+	
+}
+.contnew1_a:visited
+{       color: #0000FF;
+        font-family:"微软雅黑";
+        font-size:15px;
+		
+} 
+.contnew1_a:hover
+{
+	color: #0000FF;
+	font-family:"微软雅黑";
+	font-size:15px;
+	
+	
+} 
+</style> 
+ 
+ 
+ <br> 
+ 
+<table width="100%" border="0" cellpadding="1" cellspacing="1" class="content">
+  <tbody><tr> 
+    <td height="30" valign="middle"> <div align="left" style="font-size:16px;font-family:微软雅黑;"><strong>最新活动计划</strong></div></td>
+  </tr>
+    <tr>
+      <td height="25px" valign="bottom"><a href="http://course.uml.org.cn/course-safe/Cybersecurity.asp" target="_blank" class="artrighttext_a">AI辅助企业网络安全与治理 6-11[北京]</a></td>
+    </tr>
+    <tr>
+      <td height="25px" valign="bottom"><a href="http://course.uml.org.cn/course-db/ModelBased-DataGovernance.asp" target="_blank" class="artrighttext_a">基于模型的数据治理 6-16[北京]</a></td>
+    </tr>
+    <tr>
+      <td height="25px" valign="bottom"><a href="http://course.uml.org.cn/course-ai/ai_SDD.asp" target="_blank" class="artrighttext_a">Spec 驱动开发(SDD)实战 6-12[北京]</a></td>
+    </tr>
+    <tr>
+      <td height="25px" valign="bottom"><a href="http://course.uml.org.cn/course-ai/Embodiedintelligent.asp" target="_blank" class="artrighttext_a">具身智能技能与实践 6-11[厦门]</a></td>
+    </tr>
+    <tr>
+      <td height="25px" valign="bottom"><a href="http://course.uml.org.cn/course-ai/ai_agentkfyy.asp" target="_blank" class="artrighttext_a">AI智能体开发技术实践 6-24[上海]</a></td>
+    </tr>
+    <tr>
+      <td height="25px" valign="bottom"><a href="http://course.uml.org.cn/course-test/AI_AutoTest.asp" target="_blank" class="artrighttext_a">AI辅助软件测试方法与实践 6-26[在线]</a></td>
+    </tr>
+
+
+
+
+
+
+  <tr>
+    <td height="25px" valign="bottom">&nbsp;</td>
+  </tr>
+
+
+</tbody></table>
+
+                    					</td>
+              						</tr>
+            					</tbody></table>
+							</td>
+							<td width="40">&nbsp;</td>
+                		</tr>
+                		<tr> 
+                  			<td width="200" valign="top" bgcolor="#FFFFFF">
+								<table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" class="content">
+                      				<tbody><tr> 
+                        				<td height="17" valign="top">  <style>
+
+.contnew
+{      color:#000000;
+        font-family:"微软雅黑";
+        font-size:13px; 
+		
+}
+.contnew_a:link
+{	color: #000000;
+	font-family:"微软雅黑";
+	font-size:13px;
+	
+}
+.contnew_a:visited
+{       color:#000000;
+        font-family:"微软雅黑";
+        font-size:13px;
+		
+} 
+.contnew_a:hover
+{
+	color:#000000;
+	font-family:"微软雅黑";
+	font-size:13px;
+	
+} 
+
+</style> 
+<style>
+.artrighttext
+{      
+	color: #0000FF;
+        font-family:"微软雅黑";
+        font-size:12px;
+		 line-height: 12px;
+		 text-decoration:underline
+		
+}
+.artrighttext_a:link
+{	color: #0000FF;
+	font-family:"微软雅黑";
+	font-size:12px;
+	text-decoration:underline
+}
+.artrighttext_a:visited
+{       color:#0000FF;
+        font-family:"微软雅黑";
+        font-size:12px;
+       text-decoration:underline
+} 
+.artrighttext_a:hover
+{       color:#0000FF;
+        font-family:"微软雅黑";
+        font-size:12px;
+        text-decoration:underline
+} 
+
+</style>
+<link href="./全面解析 I2C 通信协议_files/style1.css" rel="stylesheet" type="text/css">
+<table width="280" border="0" align="center" cellpadding="0" cellspacing="0" class="content">
+  <tbody><tr>
+    <td height="40px" style="border-bottom:1px solid #cccccc" valign="middle"><font color="000000" style="font-size:13px; font-family:&#39;微软雅黑&#39;;font-weight:bold">最新文章</font></td>
+  </tr>
+  <tr>
+    <td height="10px"></td>
+  </tr>
+  <tr> 
+    <td height="25"><a href="http://www.uml.org.cn/car/2023083041.asp?artid=25917" target="_blank" class="artrighttext_a">中央计算的软件定义汽车架构设计方案解析 </a></td>
+  </tr>
+  <tr> 
+    <td height="25"><a href="http://www.uml.org.cn/car/202308184.asp?artid=25900" target="_blank" class="artrighttext_a">汽车电子控制系统中的软件开发过程</a></td>
+  </tr>
+  <tr> 
+    <td height="25"><a href="http://www.uml.org.cn/car/202307051.asp?artid=25833" target="_blank" class="artrighttext_a">一文读懂汽车芯片-有线通信芯片</a></td>
+  </tr>
+  <tr> 
+    <td height="25"><a href="http://www.uml.org.cn/car/202307211.asp?artid=25856" target="_blank" class="artrighttext_a">	OTA在汽车上有哪些难点痛点？</a></td>
+  </tr>
+  <tr> 
+    <td height="25"><a href="http://www.uml.org.cn/car/202210214.asp?artid=25434" target="_blank" class="artrighttext_a">智能汽车车用基础软件的内核和中间件</a></td>
+  </tr>
+
+  <tr> 
+    <td height="10"></td>
+  </tr>
+  <tr>
+    <td height="40px" style="border-bottom:1px solid #cccccc" valign="middle"><font color="000000" style="font-size:13px; font-family:&#39;微软雅黑&#39;;font-weight:bold">最新课程</font></td>
+  </tr>
+  <tr>
+    <td height="10px"></td>
+  </tr>
+  <tr> 
+    <td height="25"><a href="http://course.uml.org.cn/course-ai/rgzn.asp" target="_blank" class="artrighttext_a" style="text-decoration:underline;"><font color="0000FF"> 
+      </font></a><a href="http://course.uml.org.cn/course-emb/AutoSAR.asp" target="_blank" class="artrighttext_a"><font color="0000FF">Auto 
+      SAR原理与实践</font></a></td>
+  </tr>
+  <tr> 
+    <td height="25"><a href="http://course.uml.org.cn/course-uml/MBSE.asp" target="_blank" class="artrighttext_a"><font color="0000FF">MBSE（基于模型的系统工程）</font></a></td>
+  </tr>
+    <tr> 
+    <td height="25"><a href="http://course.uml.org.cn/course-emb/SOA_aerd.asp" target="_blank" class="artrighttext_a">基于SOA的汽车电子架构设计与开发（域控模式）</a></td>
+  </tr>  <tr> 
+    <td height="25"><a href="http://course.uml.org.cn/course-db/ai1.asp" target="_blank" class="artrighttext_a">人工智能助力汽车行业升级</a><a href="http://course.uml.org.cn/course-uml/MBSE.asp" target="_blank" class="artrighttext_a"></a></td>
+  </tr>
+  <tr> 
+    <td height="25"><a href="http://course.uml.org.cn/course-uml/uml-EA.asp" target="_blank" class="artrighttext_a"><font color="0000FF">基于UML和EA进行系统分析设计 
+     </font> </a></td>
+  </tr>
+  <tr> 
+    <td height="25"><a href="http://course.uml.org.cn/course-ai/TensorFlow&amp;Keras.asp" target="_blank" class="artrighttext_a" style="text-decoration:underline;"><font color="0000FF"> 
+      </font></a><a href="http://course.uml.org.cn/course-uml/SysML-EA.asp" target="_blank" class="artrighttext_a"><font color="0000FF">SysML和EA进行系统设计建模</font></a></td>
+  </tr>
+ 
+ 
+  <tr> 
+    <td height="25"> <div align="right"><a href="http://course.uml.org.cn/course/embed-fxsj.asp" target="_blank" class="artrighttext_a" style="text-decoration:underline;"><font color="0000FF">更多...</font></a>&nbsp;&nbsp;&nbsp;</div></td>
+  </tr>
+  <tr> 
+    <td height="10"></td>
+  </tr>
+  <tr>
+    <td height="40px" style="border-bottom:1px solid #cccccc" valign="middle"><font color="000000" style="font-size:13px; font-family:&#39;微软雅黑&#39;;font-weight:bold">成功案例</font></td>
+  </tr>
+  <tr>
+    <td height="10px"></td>
+  </tr>
+  <tr> 
+    <td height="25"><a href="http://www.uml.org.cn/news/202310qrsy.asp?scID=1081" target="_blank" class="artrighttext_a" style="text-decoration:underline;"><font color="0000FF"> 
+      奇瑞商用车 购买建模工具EA完全版</font></a></td>
+  </tr>
+  <tr> 
+    <td height="25"><a href="http://www.uml.org.cn/news/202309hkfy.asp?scID=1084" target="_blank" class="artrighttext_a" style="text-decoration:underline;"><font color="0000FF"> 
+      航空发动机研究院 购买建模工具EA完全版</font></a></td>
+  </tr>
+  <tr> 
+    <td height="25"><a href="http://www.uml.org.cn/news/202309lchuqche.asp?scID=1082" target="_blank" class="artrighttext_a" style="text-decoration:underline;"><font color="0000FF"> 
+     联创汽车 购买建模工具EA完全版</font></a></td>
+  </tr>
+  <tr> 
+    <td height="25"><a href="http://www.uml.org.cn/news/202308jianghuaEA.asp?scID=1079" target="_blank" class="artrighttext_a" style="text-decoration:underline;"><font color="0000FF"> 
+      江淮汽车 购买建模工具EA</font></a></td>
+  </tr>
+ 
+  
+ 
+  <tr> 
+    <td height="25"> <div align="right"><a href="http://course.uml.org.cn/newumltrain/pxanli.asp" target="_blank" class="artrighttext_a" style="text-decoration:underline;"><font color="0000FF">更多...</font></a>&nbsp;&nbsp;&nbsp;</div></td>
+  </tr>
+  <tr> 
+    <td height="10">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td height="10">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td height="10">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td height="18">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td height="18">&nbsp;</td>
+  </tr>
+</tbody></table>
+</td>
+                      				</tr>
+                     
+                    			</tbody></table>
+							</td>
+                		</tr>
+              </tbody></table>
+              
+            </td>
+            
+          </tr>
+        </tbody></table>
+
+    </td>
+  </tr>
+</tbody></table>
+<style type="text/css">
+<!--
+@media (max-width: 768px) {
+  .db {
+    display: none !important; 
+  } 
+  
+  
+  
+  }
+}
+.STYLE2 {
+font-family:"微软雅黑";
+font-size: 14px;
+color: #000000;
+line-height: 1.5;
+}
+.content2
+{
+font-family:"微软雅黑";
+font-size: 14px;
+color: #000000;
+}
+.content2_a
+{
+font-family:"微软雅黑";
+font-size: 14px;
+color: #000000;
+}
+.content2_a:link
+{
+font-family:"微软雅黑";
+font-size: 14px;
+color: #000000;
+}
+.content2_a:hover
+{
+font-family:"微软雅黑";
+font-size: 14px;
+color: #000000;
+}
+
+
+.content2:visited
+{
+font-family:"微软雅黑";
+font-size: 14px;
+color: #000000;
+}
+-->
+</style>
+
+<style>
+@media  screen and (min-width: 320px)and (max-width: 500px){
+#ccc{width:98%  !important; }
+
+}
+
+@media screen and (max-width:1024px){    
+      #right{
+display:none !important; 
+}
+img{
+width:auto;
+max-width: 100%;
+}
+}
+
+@media  screen and (min-width: 375px) and (max-width: 1024px){
+
+#right{
+display:none !important; 
+}
+img{
+width:auto;
+max-width: 100%;
+}
+.arttitle{
+width:100%;
+}
+#dai{
+width:100%;
+}
+
+}
+@media (max-width: 986px) {
+  .yc {
+    display: none !important; 
+  } 
+  #yc {
+    display: none !important; 
+  } 
+  
+  
+  }
+@media  screen and (min-width: 1024px) {
+#cy1{
+display:none !important; 
+}
+html{font-size:100%}
+}
+
+</style>
+ <div>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <!--DWLayoutTable-->
+
+    <tbody><tr> 
+    <td width="20" height="90" valign="middle" bgcolor="f5f5f5" class="content"></td>
+      <td width="100%" valign="middle" id="yc" bgcolor="f5f5f5" class="content" style="border-top:1px solid #dcdcdc;"><iframe src="./全面解析 I2C 通信协议_files/kc-bottom1.html" width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes" style="background-color:#f5f5f5" height="150"></iframe></td>
+	    <td width="100%" valign="middle" id="cy1" bgcolor="f5f5f5" class="content" style="border-top:1px solid #dcdcdc;"><iframe src="./全面解析 I2C 通信协议_files/wxbottom2.html" width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes" style="background-color:#f5f5f5" height="150"></iframe></td>
+	  <td width="20" height="90" valign="middle" bgcolor="f5f5f5" class="content"></td>
+  </tr>
+</tbody></table>
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="./全面解析 I2C 通信协议_files/ga.js.下载" type="text/javascript"></script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-5476741-1");
+pageTracker._trackPageview();
+</script>
+
+
+
+</body><div class="xl-chrome-ext-bar_4DB361DE-01F7-4376-B494-639E489D19ED" id="xl_chrome_ext_4DB361DE-01F7-4376-B494-639E489D19ED" data-v-app="" style="display: block;"><div class=""><div id="xl_chrome_ext_video_tag_wrapper_4DB361DE-01F7-4376-B494-639E489D19ED" config="[object Object]" uiversion="v2" exception="false" latestvideosrc="" isshowvideotag="false" isshowdownloadbar="true" isshowcloudaddbar="false" latestvideoelement=""><div><div class="_video_op_wrapper_mpbxe_1" config="[object Object]" uiversion="v2" style="display: none;"><ul class="_video_op_list_mpbxe_17"><li class="_op_item_mpbxe_38 _download_mpbxe_44"><span class="_op_icon_mpbxe_24"></span><span class="_op_text_mpbxe_30">下载</span></li><li class="_op_item_mpbxe_38 _screen_mpbxe_50"><span class="_op_icon_mpbxe_24"></span><span class="_op_text_mpbxe_30">投屏</span></li></ul></div></div></div><div class="badge_wrapper_4DB361DE-01F7-4376-B494-639E489D19ED _badge_wrapper_eor63_1" id="badge_wrapper_4DB361DE-01F7-4376-B494-639E489D19ED"><div class="_logo_eor63_20"></div><span class="_line_eor63_27"></span><div class="_text_wrapper_eor63_33"><span class="_download_icon_eor63_39"></span><span class="_text_eor63_33">高速下载</span></div></div><!----><!----><!----><!----></div></div></html>
